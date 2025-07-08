@@ -6,7 +6,7 @@ export function generateRotation(players: Player[]) {
     const rotation: InningAssignment[] = [];
 
 
-    for (let inning = 0; inning < innings; inning++) {
+    for (let inning = 1; inning <= innings; inning++) {
         const usedPlayers = new Set();
         const inningAssignment: InningAssignment = new Map<Position, Player>();
 

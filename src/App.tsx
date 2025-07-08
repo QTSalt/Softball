@@ -12,17 +12,39 @@ const commonButton: React.CSSProperties = {
 }
 
 const selectedButton: React.CSSProperties = {
-    backgroundColor: "lightblue",
+    backgroundColor: "#bbede8",
 }
 
+const inningDisplay: React.CSSProperties = {
+    display: "flex",
+    flexWrap: "wrap",
+}
+
+const inningBox: React.CSSProperties = {
+    border: "2px solid black",
+    padding: "0 1em 2em 1em",
+    width: "33%",
+}
+
+const inningTextOdd: React.CSSProperties = {
+    backgroundColor: "#a3e3dd",
+    fontWeight: "bold",
+    padding: ".125em"
+}
+
+const inningTextEven: React.CSSProperties = {
+    backgroundColor: "#bbede8",
+    fontWeight: "bold",
+    padding: ".125em"
+}
 const InningMap = (props: {inning: InningAssignment, inningCount: number} ) => {
     const {inning, inningCount} = props;
 
     return (
-        <div>
-            <div>Inning {inningCount}</div>
-            {Array.from(inning.entries()).map(([position, player]) => {
-                return <div>{player.name} at {position} - Played innings: {player.inningsPlayed.filter((inning) => inning <= inningCount).length}</div>
+        <div style={inningBox}>
+            <h3>Inning {inningCount}</h3>
+            {Array.from(inning.entries()).map(([position, player], index) => {
+                return <div style={index % 2 == 0 ? inningTextEven : inningTextOdd}>{player.name} at {position} - Played innings: {player.inningsPlayed.filter((inning) => inning <= inningCount).length}</div>
             })}
         </div>
     )
@@ -66,9 +88,11 @@ export const App = () => {
             </div>
             <br/>
             <button onClick={handleGenerate}>Generate Lineup</button>
-            {rotation.map((inning, index) => (
-                <InningMap inningCount={index + 1} inning={inning} />
-            ))}
+            <div style={inningDisplay}>
+                {rotation.map((inning, index) => (
+                    <InningMap inningCount={index + 1} inning={inning} />
+                ))}
+            </div>
         </div>
     );
 }
