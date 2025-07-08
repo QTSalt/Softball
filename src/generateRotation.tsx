@@ -96,7 +96,15 @@ export function generateRotation(players: Player[]) {
                 let candidate: Player | undefined;
                 if (availablePlayers.length <= 0) {
                     const noInningRestrictionPlayers = players.filter(p => !usedPlayers.has(p.name))
-                    candidate = noInningRestrictionPlayers.shift()
+                    for (const player of noInningRestrictionPlayers){
+                        if (player.preferredPositions.includes(pos)){
+                            candidate = player;
+                            break;
+                        }
+                    }
+                    if (!candidate) {
+                        candidate = noInningRestrictionPlayers.shift()
+                    }
                 } else {
                     candidate = availablePlayers.shift()
                 }
