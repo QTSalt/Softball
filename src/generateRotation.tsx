@@ -76,3 +76,7 @@ export function generateRotation(players: Player[]) {
 
     return rotation;
 }
+
+export function setupApp(element: HTMLElement) {
+    element.innerHTML = `test`
+}
