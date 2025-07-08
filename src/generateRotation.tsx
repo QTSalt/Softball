@@ -22,14 +22,14 @@ export function generateRotation(players: Player[]) {
 
 
         const assignGenderBalanced = (positions: Position[], requiredWomen: number) => {
-            const women = availablePlayers.filter(p => p.gender === 'F' && !usedPlayers.has(p.name))
-            const allPlayers = availablePlayers.filter(p => !usedPlayers.has(p.name))
+            const womenAndNonBinaryAvailablePlayers = availablePlayers.filter(p => p.gender === 'F' && !usedPlayers.has(p.name))
+            const genderNonSpecificAvailablePlayers = availablePlayers.filter(p => !usedPlayers.has(p.name))
 
             for (const pos of positions) {
                 let candidate: Player | undefined;
 
-                if (requiredWomen > 0 && women.length > 0) {
-                    for (const player of women){
+                if (requiredWomen > 0 && womenAndNonBinaryAvailablePlayers.length > 0) {
+                    for (const player of womenAndNonBinaryAvailablePlayers){
                         if (player.preferredPositions.includes(pos)){
                             candidate = player;
                             requiredWomen--;
@@ -37,7 +37,7 @@ export function generateRotation(players: Player[]) {
                         }
                     }
                 } else {
-                    for (const player of allPlayers){
+                    for (const player of genderNonSpecificAvailablePlayers){
                         if (player.preferredPositions.includes(pos)){
                             candidate = player;
                             break;
@@ -45,21 +45,23 @@ export function generateRotation(players: Player[]) {
                     }
                 }
 
+                // fallback to anyone
                 if (!candidate) {
-                    if (allPlayers.length <= 0) {
+                    if (genderNonSpecificAvailablePlayers.length <= 0) {
                         const noInningRestrictionPlayers = players.filter(p => !usedPlayers.has(p.name))
                         candidate = noInningRestrictionPlayers.shift()
+                    } else {
+                        candidate = genderNonSpecificAvailablePlayers.shift()
                     }
-                    candidate = allPlayers.shift() // fallback to anyone
                 }
 
                 if (candidate) {
                     inningAssignment.set(pos, candidate);
                     usedPlayers.add(candidate.name);
-                    let index = allPlayers.indexOf(candidate);
-                    allPlayers.splice(index, 1)
-                    index = women.indexOf(candidate)
-                    women.splice(index, 1)
+                    let index = genderNonSpecificAvailablePlayers.indexOf(candidate);
+                    genderNonSpecificAvailablePlayers.splice(index, 1)
+                    index = womenAndNonBinaryAvailablePlayers.indexOf(candidate)
+                    womenAndNonBinaryAvailablePlayers.splice(index, 1)
                     const playerIndex = players.indexOf(candidate);
                     players[playerIndex].inningsPlayed.push(inning);
                 } else {
