@@ -38,6 +38,10 @@ const inningTextEven: React.CSSProperties = {
     fontWeight: "bold",
     padding: ".125em"
 }
+
+const generationRow: React.CSSProperties = {
+    display: "flex",
+}
 const InningMap = (props: {inning: InningAssignment, inningCount: number} ) => {
     const {inning, inningCount} = props;
 
@@ -54,12 +58,33 @@ const InningMap = (props: {inning: InningAssignment, inningCount: number} ) => {
 export const App = () => {
     const [activePlayers, setActivePlayers] = useState<Player[]>(PLAYERS);
     const [rotation, setRotation] = useState<InningAssignment[]>([]);
+    const [shouldShuffle, setShouldShuffle] = useState<boolean>(true);
+
+    const shuffle = (players: Player[]): Player[] => {
+        let currentIndex = players.length,  randomIndex;
+
+        // While there remain elements to shuffle.
+        while (currentIndex != 0) {
+
+            // Pick a remaining element.
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            // And swap it with the current element.
+            [players[currentIndex], players[randomIndex]] = [
+                players[randomIndex], players[currentIndex]];
+        }
+
+        return players;
+    };
 
     const handleGenerate = () => {
-        const cleanedPlayers = [...activePlayers];
+        let cleanedPlayers = [...activePlayers];
         cleanedPlayers.forEach((player: Player) => {
             player.inningsPlayed = [];
         })
+        cleanedPlayers = shuffle(cleanedPlayers);
+
         const result = generateRotation(cleanedPlayers);
         setRotation(result);
     };

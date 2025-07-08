@@ -1,4 +1,11 @@
-import { type Player, Position, INFIELD_POSITIONS, OUTFIELD_POSITIONS, OTHER_POSITIONS, type InningAssignment } from "./players.ts"
+import {
+    type Player,
+    Position,
+    INFIELD_POSITIONS,
+    OUTFIELD_POSITIONS,
+    OTHER_POSITIONS,
+    type InningAssignment,
+} from "./players.ts"
 
 
 export function generateRotation(players: Player[]) {
@@ -18,7 +25,6 @@ export function generateRotation(players: Player[]) {
         }
         let availablePlayers = players.filter((player: Player) => (player.inningsPlayed.length !<= lowestNumInningsPlayed + 1))
         availablePlayers = availablePlayers.sort((a, b) => a.inningsPlayed.length - b.inningsPlayed.length).filter((p) => !usedPlayers.has(p.name));
-
 
 
         const assignGenderBalanced = (positions: Position[], requiredWomen: number) => {
