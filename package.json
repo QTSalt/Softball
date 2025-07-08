@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/QTSalt/Softball",
+  "homepage": "https://github.com/QTSalt",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -20,7 +20,10 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.6.0",
+    "build": "^0.1.4",
+    "npm": "^11.4.2",
     "react": "^19.1.0",
-    "react-router-dom": "^7.6.3"
+    "react-router-dom": "^7.6.3",
+    "run": "^1.5.0"
   }
 }
