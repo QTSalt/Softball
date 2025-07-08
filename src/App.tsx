@@ -24,7 +24,7 @@ const inningDisplay: React.CSSProperties = {
 const inningBox: React.CSSProperties = {
     border: "2px solid black",
     padding: "0 1em 2em 1em",
-    width: "33%",
+    width: "90%",
 }
 
 const inningTextOdd: React.CSSProperties = {
