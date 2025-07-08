@@ -106,7 +106,15 @@ export function generateRotation(players: Player[]) {
                         candidate = noInningRestrictionPlayers.shift()
                     }
                 } else {
-                    candidate = availablePlayers.shift()
+                    for (const player of availablePlayers){
+                        if (player.preferredPositions.includes(pos)){
+                            candidate = player;
+                            break;
+                        }
+                    }
+                    if (!candidate) {
+                        candidate = availablePlayers.shift()
+                    }
                 }
                 setPosition(candidate, pos)
             }
