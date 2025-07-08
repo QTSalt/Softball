@@ -17,6 +17,7 @@ const selectedButton: React.CSSProperties = {
 
 const inningDisplay: React.CSSProperties = {
     display: "flex",
+    flexDirection: "column",
     flexWrap: "wrap",
 }
 
