@@ -39,6 +39,11 @@ const inningTextEven: React.CSSProperties = {
     padding: ".125em"
 }
 
+const playerActivationRow: React.CSSProperties = {
+    display: "flex",
+    gap: "2em",
+}
+
 const InningMap = (props: {inning: InningAssignment, inningCount: number} ) => {
     const {inning, inningCount} = props;
 
@@ -53,7 +58,7 @@ const InningMap = (props: {inning: InningAssignment, inningCount: number} ) => {
 }
 
 export const App = () => {
-    const [activePlayers, setActivePlayers] = useState<Player[]>(PLAYERS);
+    const [activePlayers, setActivePlayers] = useState<Player[]>([]);
     const [rotation, setRotation] = useState<InningAssignment[]>([]);
 
     const shuffle = (players: Player[]): Player[] => {
@@ -96,7 +101,15 @@ export const App = () => {
     return (
         <div>
             <h1>Softball Rotation Generator</h1>
-            Who is here?
+            <div style={playerActivationRow}>
+                Who is here?
+                <button onClick={() => {
+                    activePlayers.length == 0 ?
+                    setActivePlayers(PLAYERS) :
+                    setActivePlayers([])}}
+                >Toggle all players</button>
+            </div>
+            <br/>
             <div style={playerGrid}>
                 {PLAYERS.map((player: Player) => (
                     <button style={
