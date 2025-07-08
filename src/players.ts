@@ -34,7 +34,7 @@ export type Player = {
     name: string,
     gender: "M" | "F",
     preferredPositions: Position[],
-    inningsPlayed: number,
+    inningsPlayed: number[],
     battingOrder: number
 }
 
@@ -45,105 +45,105 @@ export const PLAYERS: Player[] = [
         name: "Chris",
         gender: "M",
         preferredPositions: [Position.FIRST_BASE],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 1
     },
     {
         name: "Katherine",
         gender: "F",
         preferredPositions: [Position.SECOND_BASE, Position.THIRD_BASE],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 2
     },
     {
         name: "Jon",
         gender: "M",
         preferredPositions: [Position.LEFT_FIELD, Position.LEFT_CENTER_FIELD, Position.PITCHER, Position.RIGHT_CENTER_FIELD, Position.RIGHT_FIELD],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 3
     },
     {
         name: "Jason",
         gender: "M",
         preferredPositions: [Position.LEFT_CENTER_FIELD, Position.SHORTSTOP],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 4
     },
     {
         name: "Trina",
         gender: "F",
         preferredPositions: [Position.RIGHT_FIELD, Position.LEFT_FIELD],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 5
     },
     {
         name: "Maxx",
         gender: "M",
         preferredPositions: [Position.SHORTSTOP, Position.THIRD_BASE],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 6
     },
     {
         name: "Ernie",
         gender: "M",
         preferredPositions: [Position.PITCHER, Position.FIRST_BASE],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 7
     },
     {
         name: "Ali",
         gender: "F",
         preferredPositions: [Position.THIRD_BASE],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 8
     },
     {
         name: "Quinn",
         gender: "F",
         preferredPositions: [...OUTFIELD_POSITIONS, Position.SECOND_BASE, Position.THIRD_BASE],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 9
     },
     {
         name: "Oscar",
         gender: "F",
         preferredPositions: [...OUTFIELD_POSITIONS],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 10
     },
     {
         name: "Kel",
         gender: "F",
         preferredPositions: [Position.CATCHER],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 11
     },
     {
         name: "Rebekah",
         gender: "F",
         preferredPositions: [Position.RIGHT_FIELD, Position.LEFT_FIELD, Position.CATCHER],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 12
     },
     {
         name: "Alex",
         gender: "M",
         preferredPositions: [Position.SECOND_BASE, Position.RIGHT_CENTER_FIELD, Position.LEFT_CENTER_FIELD],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 13
     },
     {
         name: "Sriya",
         gender: "F",
         preferredPositions: [Position.LEFT_FIELD, Position.RIGHT_FIELD],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 14
     },
     {
         name: "Trenton",
         gender: "M",
         preferredPositions: [Position.RIGHT_CENTER_FIELD, Position.LEFT_CENTER_FIELD],
-        inningsPlayed: 0,
+        inningsPlayed: [],
         battingOrder: 15
     }
 ]

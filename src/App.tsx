@@ -22,7 +22,7 @@ const InningMap = (props: {inning: InningAssignment, inningCount: number} ) => {
         <div>
             <div>Inning {inningCount}</div>
             {Array.from(inning.entries()).map(([position, player]) => {
-                return <div>{player.name} at {position} - Played innings: {player.inningsPlayed}</div>
+                return <div>{player.name} at {position} - Played innings: {player.inningsPlayed.filter((inning) => inning <= inningCount).length}</div>
             })}
         </div>
     )
@@ -35,7 +35,7 @@ export const App = () => {
     const handleGenerate = () => {
         const cleanedPlayers = [...activePlayers];
         cleanedPlayers.forEach((player: Player) => {
-            player.inningsPlayed = 0;
+            player.inningsPlayed = [];
         })
         const result = generateRotation(cleanedPlayers);
         setRotation(result);

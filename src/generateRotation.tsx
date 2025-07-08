@@ -12,12 +12,12 @@ export function generateRotation(players: Player[]) {
 
         let lowestNumInningsPlayed = inning;
         for (const player of players) {
-            if (player.inningsPlayed < lowestNumInningsPlayed) {
-                lowestNumInningsPlayed = player.inningsPlayed;
+            if (player.inningsPlayed.length < lowestNumInningsPlayed) {
+                lowestNumInningsPlayed = player.inningsPlayed.length;
             }
         }
-        let availablePlayers = players.filter((player: Player) => (player.inningsPlayed !<= lowestNumInningsPlayed + 1))
-        availablePlayers = availablePlayers.sort((a, b) => a.inningsPlayed - b.inningsPlayed).filter((p) => !usedPlayers.has(p.name));
+        let availablePlayers = players.filter((player: Player) => (player.inningsPlayed.length !<= lowestNumInningsPlayed + 1))
+        availablePlayers = availablePlayers.sort((a, b) => a.inningsPlayed.length - b.inningsPlayed.length).filter((p) => !usedPlayers.has(p.name));
 
 
 
@@ -61,13 +61,13 @@ export function generateRotation(players: Player[]) {
                     index = women.indexOf(candidate)
                     women.splice(index, 1)
                     const playerIndex = players.indexOf(candidate);
-                    players[playerIndex].inningsPlayed++;
+                    players[playerIndex].inningsPlayed.push(inning);
                 } else {
                     inningAssignment.set(pos, {
                         name: "Something broke, have to manually set this one",
                         gender: "M",
                         preferredPositions: [],
-                        inningsPlayed: 0,
+                        inningsPlayed: [],
                         battingOrder: -1
                     })
                 }
