@@ -100,7 +100,7 @@ export const PLAYERS: Player[] = [
     {
         name: "Quinn",
         gender: "F",
-        preferredPositions: [...OUTFIELD_POSITIONS, Position.SECOND_BASE, Position.THIRD_BASE],
+        preferredPositions: [...OUTFIELD_POSITIONS, Position.SECOND_BASE, Position.SHORTSTOP],
         inningsPlayed: [],
         battingOrder: 9
     },
