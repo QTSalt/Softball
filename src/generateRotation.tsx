@@ -28,7 +28,14 @@ export function generateRotation(players: Player[]) {
             for (const pos of positions) {
                 let candidate: Player | undefined;
 
-                if (requiredWomen > 0 && womenAndNonBinaryAvailablePlayers.length > 0) {
+                if (OTHER_POSITIONS.includes(pos)){
+                    for (const player of availablePlayers){
+                        if (player.preferredPositions.includes(pos)){
+                            candidate = player;
+                            break;
+                        }
+                    }
+                } else if (requiredWomen > 0 && womenAndNonBinaryAvailablePlayers.length > 0) {
                     for (const player of womenAndNonBinaryAvailablePlayers){
                         if (player.preferredPositions.includes(pos)){
                             candidate = player;
@@ -62,6 +69,8 @@ export function generateRotation(players: Player[]) {
                     menAvailablePlayers.splice(index, 1)
                     index = womenAndNonBinaryAvailablePlayers.indexOf(candidate)
                     womenAndNonBinaryAvailablePlayers.splice(index, 1)
+                    index = availablePlayers.indexOf(candidate)
+                    availablePlayers.splice(index, 1)
                     const playerIndex = players.indexOf(candidate);
                     players[playerIndex].inningsPlayed.push(inning);
                 } else {
@@ -91,6 +100,3 @@ export function generateRotation(players: Player[]) {
     return rotation;
 }
 
-export function setupApp(element: HTMLElement) {
-    element.innerHTML = `test`
-}
