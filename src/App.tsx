@@ -39,9 +39,6 @@ const inningTextEven: React.CSSProperties = {
     padding: ".125em"
 }
 
-const generationRow: React.CSSProperties = {
-    display: "flex",
-}
 const InningMap = (props: {inning: InningAssignment, inningCount: number} ) => {
     const {inning, inningCount} = props;
 
@@ -58,7 +55,6 @@ const InningMap = (props: {inning: InningAssignment, inningCount: number} ) => {
 export const App = () => {
     const [activePlayers, setActivePlayers] = useState<Player[]>(PLAYERS);
     const [rotation, setRotation] = useState<InningAssignment[]>([]);
-    const [shouldShuffle, setShouldShuffle] = useState<boolean>(true);
 
     const shuffle = (players: Player[]): Player[] => {
         let currentIndex = players.length,  randomIndex;
