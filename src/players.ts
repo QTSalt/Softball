@@ -56,7 +56,7 @@ export const PLAYERS: Player[] = [
         battingOrder: 2
     },
     {
-        name: "Jow",
+        name: "Jon",
         gender: "M",
         preferredPositions: [Position.LEFT_FIELD, Position.LEFT_CENTER_FIELD, Position.PITCHER, Position.RIGHT_CENTER_FIELD, Position.RIGHT_FIELD],
         inningsPlayed: 0,
@@ -100,15 +100,7 @@ export const PLAYERS: Player[] = [
     {
         name: "Quinn",
         gender: "F",
-        preferredPositions: [Position.FIRST_BASE,
-            Position.SECOND_BASE,
-            Position.SHORTSTOP,
-            Position.THIRD_BASE,
-            Position.LEFT_FIELD,
-            Position.LEFT_CENTER_FIELD,
-            Position.RIGHT_CENTER_FIELD,
-            Position.RIGHT_FIELD,
-            Position.CATCHER],
+        preferredPositions: [...OUTFIELD_POSITIONS, Position.SECOND_BASE, Position.THIRD_BASE],
         inningsPlayed: 0,
         battingOrder: 9
     },

@@ -10,19 +10,16 @@ export function generateRotation(players: Player[]) {
         const usedPlayers = new Set();
         const inningAssignment: InningAssignment = new Map<Position, Player>();
 
-        let availablePlayers = players.sort((a, b) => a.inningsPlayed - b.inningsPlayed);
-        const lowestNumInningsPlayed = players[players.length - 1].inningsPlayed;
-        availablePlayers = availablePlayers.filter((player: Player) => (player.inningsPlayed !>= lowestNumInningsPlayed + 2))
-
-        // Assign Catcher & Pitcher freely
-        for (const pos of OTHER_POSITIONS) {
-            const candidate = availablePlayers.find(p => !usedPlayers.has(p.name) && p.preferredPositions.includes(pos));
-            if (candidate) {
-                inningAssignment.set(pos, candidate);
-                usedPlayers.add(candidate.name);
-                candidate.inningsPlayed++;
+        let lowestNumInningsPlayed = inning;
+        for (const player of players) {
+            if (player.inningsPlayed < lowestNumInningsPlayed) {
+                lowestNumInningsPlayed = player.inningsPlayed;
             }
         }
+        let availablePlayers = players.filter((player: Player) => (player.inningsPlayed !<= lowestNumInningsPlayed + 1))
+        availablePlayers = availablePlayers.sort((a, b) => a.inningsPlayed - b.inningsPlayed).filter((p) => !usedPlayers.has(p.name));
+
+
 
         const assignGenderBalanced = (positions: Position[], requiredWomen: number) => {
             const women = availablePlayers.filter(p => p.gender === 'F' && !usedPlayers.has(p.name))
@@ -46,7 +43,14 @@ export function generateRotation(players: Player[]) {
                             break;
                         }
                     }
-                    candidate = allPlayers.shift() || women.shift(); // fallback to anyone
+                }
+
+                if (!candidate) {
+                    if (allPlayers.length <= 0) {
+                        const noInningRestrictionPlayers = players.filter(p => !usedPlayers.has(p.name))
+                        candidate = noInningRestrictionPlayers.shift()
+                    }
+                    candidate = allPlayers.shift() // fallback to anyone
                 }
 
                 if (candidate) {
@@ -58,6 +62,14 @@ export function generateRotation(players: Player[]) {
                     women.splice(index, 1)
                     const playerIndex = players.indexOf(candidate);
                     players[playerIndex].inningsPlayed++;
+                } else {
+                    inningAssignment.set(pos, {
+                        name: "Something broke, have to manually set this one",
+                        gender: "M",
+                        preferredPositions: [],
+                        inningsPlayed: 0,
+                        battingOrder: -1
+                    })
                 }
             }
         };
