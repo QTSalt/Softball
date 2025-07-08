@@ -23,7 +23,7 @@ export function generateRotation(players: Player[]) {
 
         const assignGenderBalanced = (positions: Position[], requiredWomen: number) => {
             const womenAndNonBinaryAvailablePlayers = availablePlayers.filter(p => p.gender === 'F' && !usedPlayers.has(p.name))
-            const genderNonSpecificAvailablePlayers = availablePlayers.filter(p => !usedPlayers.has(p.name))
+            const menAvailablePlayers = availablePlayers.filter(p => p.gender === 'M' && !usedPlayers.has(p.name))
 
             for (const pos of positions) {
                 let candidate: Player | undefined;
@@ -37,7 +37,7 @@ export function generateRotation(players: Player[]) {
                         }
                     }
                 } else {
-                    for (const player of genderNonSpecificAvailablePlayers){
+                    for (const player of menAvailablePlayers){
                         if (player.preferredPositions.includes(pos)){
                             candidate = player;
                             break;
@@ -47,19 +47,19 @@ export function generateRotation(players: Player[]) {
 
                 // fallback to anyone
                 if (!candidate) {
-                    if (genderNonSpecificAvailablePlayers.length <= 0) {
+                    if (availablePlayers.length <= 0) {
                         const noInningRestrictionPlayers = players.filter(p => !usedPlayers.has(p.name))
                         candidate = noInningRestrictionPlayers.shift()
                     } else {
-                        candidate = genderNonSpecificAvailablePlayers.shift()
+                        candidate = availablePlayers.shift()
                     }
                 }
 
                 if (candidate) {
                     inningAssignment.set(pos, candidate);
                     usedPlayers.add(candidate.name);
-                    let index = genderNonSpecificAvailablePlayers.indexOf(candidate);
-                    genderNonSpecificAvailablePlayers.splice(index, 1)
+                    let index = menAvailablePlayers.indexOf(candidate);
+                    menAvailablePlayers.splice(index, 1)
                     index = womenAndNonBinaryAvailablePlayers.indexOf(candidate)
                     womenAndNonBinaryAvailablePlayers.splice(index, 1)
                     const playerIndex = players.indexOf(candidate);
