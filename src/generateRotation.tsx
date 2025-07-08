@@ -30,44 +30,9 @@ export function generateRotation(players: Player[]) {
         const assignGenderBalanced = (positions: Position[], requiredWomen: number) => {
             const womenAndNonBinaryAvailablePlayers = availablePlayers.filter(p => p.gender === 'F' && !usedPlayers.has(p.name))
             const menAvailablePlayers = availablePlayers.filter(p => p.gender === 'M' && !usedPlayers.has(p.name))
+            const unassignedPositions: Position[] = [];
 
-            for (const pos of positions) {
-                let candidate: Player | undefined;
-
-                if (OTHER_POSITIONS.includes(pos)){
-                    for (const player of availablePlayers){
-                        if (player.preferredPositions.includes(pos)){
-                            candidate = player;
-                            break;
-                        }
-                    }
-                } else if (requiredWomen > 0 && womenAndNonBinaryAvailablePlayers.length > 0) {
-                    for (const player of womenAndNonBinaryAvailablePlayers){
-                        if (player.preferredPositions.includes(pos)){
-                            candidate = player;
-                            requiredWomen--;
-                            break;
-                        }
-                    }
-                } else {
-                    for (const player of menAvailablePlayers){
-                        if (player.preferredPositions.includes(pos)){
-                            candidate = player;
-                            break;
-                        }
-                    }
-                }
-
-                // fallback to anyone
-                if (!candidate) {
-                    if (availablePlayers.length <= 0) {
-                        const noInningRestrictionPlayers = players.filter(p => !usedPlayers.has(p.name))
-                        candidate = noInningRestrictionPlayers.shift()
-                    } else {
-                        candidate = availablePlayers.shift()
-                    }
-                }
-
+            const setPosition = (candidate: Player | undefined, pos: Position) => {
                 if (candidate) {
                     inningAssignment.set(pos, candidate);
                     usedPlayers.add(candidate.name);
@@ -88,6 +53,54 @@ export function generateRotation(players: Player[]) {
                         battingOrder: -1
                     })
                 }
+            }
+
+            for (const pos of positions) {
+                let candidate: Player | undefined;
+
+                if (OTHER_POSITIONS.includes(pos)){
+                    for (const player of availablePlayers){
+                        if (player.preferredPositions.includes(pos)){
+                            candidate = player;
+                            break;
+                        }
+                    }
+                } else if (
+                    requiredWomen > 0 &&
+                    womenAndNonBinaryAvailablePlayers.length > 0 &&
+                    womenAndNonBinaryAvailablePlayers.filter((player) => player.preferredPositions.includes(pos)).length > 0) {
+                    for (const player of womenAndNonBinaryAvailablePlayers){
+                        if (player.preferredPositions.includes(pos)){
+                            candidate = player;
+                            requiredWomen--;
+                            break;
+                        }
+                    }
+                } else {
+                    for (const player of menAvailablePlayers){
+                        if (player.preferredPositions.includes(pos)){
+                            candidate = player;
+                            break;
+                        }
+                    }
+                }
+                if (candidate) {
+                    setPosition(candidate, pos)
+                } else {
+                    unassignedPositions.push(pos)
+                }
+            }
+
+            // fallback to anyone
+            for (const pos of unassignedPositions) {
+                let candidate: Player | undefined;
+                if (availablePlayers.length <= 0) {
+                    const noInningRestrictionPlayers = players.filter(p => !usedPlayers.has(p.name))
+                    candidate = noInningRestrictionPlayers.shift()
+                } else {
+                    candidate = availablePlayers.shift()
+                }
+                setPosition(candidate, pos)
             }
         };
 
