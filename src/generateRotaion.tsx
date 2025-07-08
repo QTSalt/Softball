@@ -10,7 +10,9 @@ export function generateRotation(players: Player[]) {
         const usedPlayers = new Set();
         const inningAssignment: InningAssignment = new Map<Position, Player>();
 
-        const availablePlayers = players.sort((a, b) => a.inningsPlayed - b.inningsPlayed);
+        let availablePlayers = players.sort((a, b) => a.inningsPlayed - b.inningsPlayed);
+        const lowestNumInningsPlayed = players[players.length - 1].inningsPlayed;
+        availablePlayers = availablePlayers.filter((player: Player) => (player.inningsPlayed !>= lowestNumInningsPlayed + 2))
 
         // Assign Catcher & Pitcher freely
         for (const pos of OTHER_POSITIONS) {
@@ -24,7 +26,7 @@ export function generateRotation(players: Player[]) {
 
         const assignGenderBalanced = (positions: Position[], requiredWomen: number) => {
             const women = availablePlayers.filter(p => p.gender === 'F' && !usedPlayers.has(p.name))
-            const men = availablePlayers.filter(p => p.gender === 'M' && !usedPlayers.has(p.name))
+            const allPlayers = availablePlayers.filter(p => !usedPlayers.has(p.name))
 
             for (const pos of positions) {
                 let candidate: Player | undefined;
@@ -33,33 +35,35 @@ export function generateRotation(players: Player[]) {
                     for (const player of women){
                         if (player.preferredPositions.includes(pos)){
                             candidate = player;
-                            const index = women.indexOf(player)
-                            women.splice(index, 1)
                             requiredWomen--;
                             break;
                         }
                     }
-                    for (const player of men){
+                } else {
+                    for (const player of allPlayers){
                         if (player.preferredPositions.includes(pos)){
                             candidate = player;
-                            const index = men.indexOf(player)
-                            men.splice(index, 1)
                             break;
                         }
                     }
-                } else {
-                    candidate = men.shift() || women.shift(); // fallback to anyone
+                    candidate = allPlayers.shift() || women.shift(); // fallback to anyone
                 }
 
                 if (candidate) {
                     inningAssignment.set(pos, candidate);
                     usedPlayers.add(candidate.name);
-                    candidate.inningsPlayed++;
+                    let index = allPlayers.indexOf(candidate);
+                    allPlayers.splice(index, 1)
+                    index = women.indexOf(candidate)
+                    women.splice(index, 1)
+                    const playerIndex = players.indexOf(candidate);
+                    players[playerIndex].inningsPlayed++;
                 }
             }
         };
 
-
+        // Assign a pitcher and a catcher
+        assignGenderBalanced(OTHER_POSITIONS, 0)
 
         // Assign infield with 2 women
         assignGenderBalanced(INFIELD_POSITIONS, 2);
