@@ -12,31 +12,31 @@ export function generateRotation(players: Player[]) {
     const innings = 7;
     const rotation: InningAssignment[] = [];
 
-    const normalizePositions = (inningAssignment: InningAssignment) => {
-        const unhappyPlayers: Map<Position, Player> = new Map()
-
-        inningAssignment.forEach((player, position) => {
-            if (!player.preferredPositions.includes(position)) {
-                unhappyPlayers.set(position, player);
-            }
-        })
-        unhappyPlayers.forEach((player, position) => {
-            const availablePositionsForSwap: Position[] = Array.from(unhappyPlayers.keys())
-            for (const playerPreferredPosition of player.preferredPositions){
-                if (availablePositionsForSwap.includes(playerPreferredPosition)) {
-                    // Swap the players
-                    const swappingPlayer = unhappyPlayers.get(playerPreferredPosition)
-                    if (swappingPlayer) {
-                        inningAssignment.set(position, swappingPlayer);
-                        inningAssignment.set(playerPreferredPosition, player);
-                        break;
-                    }
-                }
-            }
-        })
-
-        return inningAssignment;
-    }
+    // const normalizePositions = (inningAssignment: InningAssignment) => {
+    //     const unhappyPlayers: Map<Position, Player> = new Map()
+    //
+    //     inningAssignment.forEach((player, position) => {
+    //         if (!player.preferredPositions.includes(position)) {
+    //             unhappyPlayers.set(position, player);
+    //         }
+    //     })
+    //     unhappyPlayers.forEach((player, position) => {
+    //         const availablePositionsForSwap: Position[] = Array.from(unhappyPlayers.keys())
+    //         for (const playerPreferredPosition of player.preferredPositions){
+    //             if (availablePositionsForSwap.includes(playerPreferredPosition)) {
+    //                 // Swap the players
+    //                 const swappingPlayer = unhappyPlayers.get(playerPreferredPosition)
+    //                 if (swappingPlayer) {
+    //                     inningAssignment.set(position, swappingPlayer);
+    //                     inningAssignment.set(playerPreferredPosition, player);
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     })
+    //
+    //     return inningAssignment;
+    // }
 
 
     for (let inning = 1; inning <= innings; inning++) {
@@ -155,7 +155,7 @@ export function generateRotation(players: Player[]) {
         // Assign outfield with 2 women
         assignGenderBalanced(OUTFIELD_POSITIONS, 2);
 
-        inningAssignment = normalizePositions(inningAssignment);
+        // inningAssignment = normalizePositions(inningAssignment);
 
         rotation.push(inningAssignment);
     }
