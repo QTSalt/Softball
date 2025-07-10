@@ -56,7 +56,7 @@ export const PLAYERS: Player[] = [
         battingOrder: 2
     },
     {
-        name: "Jon",
+        name: "Joe",
         gender: "M",
         preferredPositions: [Position.LEFT_FIELD, Position.LEFT_CENTER_FIELD, Position.PITCHER, Position.RIGHT_CENTER_FIELD, Position.RIGHT_FIELD],
         inningsPlayed: [],
